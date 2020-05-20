@@ -23,11 +23,11 @@ def get_max_list(l, allowed_actions):
            index=0
         else :
            index=2
-    elif (len(allowed_actions)==3):
+    elif(len(allowed_actions)==3):
         if (l[0]>=l[1]):
             if (l[0]>= l[2]):
                 index=0
-            elif:
+            else:
                 index=2
         elif(l[0]<=l[1]):
             if (l[1]>=l[2]):
