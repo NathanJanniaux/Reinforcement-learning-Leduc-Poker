@@ -1,9 +1,7 @@
 # RL for Texas Hold'em Poker
 
-[here](#Leduc-Push-and-Fold)
-
-- Leduc Push and Fold
-- Leduc Push, Check, Fold (2 rounds)
+- [Leduc Push and Fold](#Leduc-Push-and-Fold)
+- [Leduc Push, Check, Fold (2 rounds)](#Leduc-Push,-Check,-Fold-(2-rounds))
 
 ## Leduc Push and Fold
 
