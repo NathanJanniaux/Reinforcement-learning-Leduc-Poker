@@ -19,10 +19,11 @@ def get_max_list(l, allowed_actions):
     index=None
     if (len(allowed_actions)==2):
         del allowed_actions[1]
+        print("new allowed_actions", allowed_actions)
         if (l[0]>=l[1]):
-           index=0
+            index=0
         else :
-           index=2
+            index=2
     elif(len(allowed_actions)==3):
         if (l[0]>=l[1]):
             if (l[0]>= l[2]):
