@@ -18,7 +18,7 @@ def choose_and_remove(items):
 def get_max_list(l, allowed_actions):
     index=None
     if (len(allowed_actions)==2):
-        l.remove('1')
+        del allowed_actions[1]
         if (l[0]>=l[1]):
            index=0
         else :
