@@ -113,7 +113,19 @@ Our first step was to implement Push or Fold Leduc Hold'em.
 #### Init
 
 This is a 2 rounds game : Preflop and Postflop
-There are two players with the same stacksize (10 units). At the begining of the game, both players spend a blind (1 unit) in the pot.
+There are two players (Player1, Player2 respectively for QAgent,Opponent) with the same stacksize (10 units).
+The deck is composed of 6 cards (J,J,Q,Q,K,K).
+At the begining of the game, both players spend a blind (1 unit) in the pot. 
+
+The game assigns:
+- randomly the firstplayer (0,1 respectively for Player1,Player2).
+- one card to each player (0,1,2 respectively for J,Q,K). This card is stored in Hand variable (Hand1, Hand2 respectiveley for Player1, Player2).
+- one board card (0,1,2 respectively for J,Q,K). This card is stored in Boardcard variable.
+- the remaining deck
+- the best hand (-1,0,1 respectively for Hand2,Draw,Hand1). This value is stored in result variable. 
+- the current round (0,1 respectively for round1,round2)
+- the current step of the round (0,1,2 respectively for step1,step2,step3) ([Steps explanation](#steps-explanation)).
+- the boolean GameIsOver (0,1 respectively for No,Yes)
 
 ```python
 #Creating a Game
@@ -126,20 +138,22 @@ print(game)
 FirstPlayer = 0 
 Hand1 = 0 
 Hand2 = 0 
-Board = 1 
+Boardcard = 1 
 Deck = [1, 2, 2]
 Result = 0
 Stack1=9
 Stack2=9
 Pot=2
-Step=1
 Round=0
+Step=1
 GameIsOver=0
 ```
 
 Below is the logic of a round :
 
-#### First Step
+#### Steps explanation
+
+##### First Step
 
 Then, the firstplayer will decide either to Push, Check or Fold based on its card.
 
@@ -151,7 +165,7 @@ game.step(1)
 print(game)
 ```
 
-#### Second Step
+##### Second Step
 
 Now, the secondplayer will decide either to Push, Check or Fold based on its card and the firstplayer action.
 
@@ -164,7 +178,7 @@ print(game)
 game.step(1)
 print(game)
 ```
-#### Third Step (optional)
+##### Third Step (optional)
 
 If the firstplayer Checks and the secondplayer Pushes, then we need an extra step where the firstplayer will decide either to Push or Fold.
 
