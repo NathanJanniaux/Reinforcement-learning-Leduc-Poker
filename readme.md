@@ -216,6 +216,7 @@ For a total of 3 * 3 * 4 = 36 states (6 times higher than the Push or Fold Leduc
 
 ### QTable structure
 In gray are the prohibited actions at a given state.
+
 <img src="QTable2steps.png"></img>
 
 ### Agents
