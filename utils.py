@@ -17,24 +17,39 @@ def choose_and_remove(items):
 
 def get_max_list(l, allowed_actions):
     index=None
+    print("allowed_actions: ", allowed_actions)
     if (len(allowed_actions)==2):
-        del allowed_actions[1]
-        if (l[0]>=l[1]):
+        new_actions=[l[0],l[2]]
+        print("new allowed_actions: ", new_actions)
+        print("indice 0: ", new_actions[0])
+        print("indice 1: ", new_actions[1])
+        if(new_actions[0]==new_actions[1]):
+            index=random.sample([0,2],1)[0]
+        elif (new_actions[0]>new_actions[1]):
             index=0
         else :
             index=2
     elif(len(allowed_actions)==3):
-        if (l[0]>=l[1]):
-            if (l[0]>= l[2]):
+        print("indice 0: ", l[0])
+        print("indice 1: ", l[1])
+        print("indice 2: ", l[2])
+        if (l[0]==l[1] and l[1]==l[2]):
+            index=random.sample([0,1,2],1)[0]
+        elif (l[0]>=l[1]):
+            if(l[0]==l[2]):
+                index=random.sample([0,2],1)[0]
+            elif (l[0]> l[2]):
                 index=0
             else:
                 index=2
         elif(l[0]<=l[1]):
-            if (l[1]>=l[2]):
+            if(l[1]==l[2]):
+                index=random.sample([1,2],1)[0]
+            elif (l[1]>l[2]):
                 index=1
             else:
                 index=2
-        
+    print("index: ", index)
     return(index)
 
 
