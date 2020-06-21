@@ -33,6 +33,7 @@ Now, our QAgent will choose an action:
 - in exploitation it will consider the state and the QTable
 
 Here, the QAgent decides to Check too:
+
 <img src="ressources/Picture3.png">
 
 The 1st round is over, we moe on the 2nd round.
@@ -41,10 +42,12 @@ The 1st round is over, we moe on the 2nd round.
 ### 1st Step
 
 One more time, our QAgent wait for the Opponent action choice. Here, the Opponent decides to Push:
+
 <img src="ressources/Picture5.png">
 
 ### 2nd Step
 Now, our QAgent chooses to Fold:
+
 <img src="ressources/Picture6.png">
 
 
