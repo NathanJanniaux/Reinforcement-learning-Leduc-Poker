@@ -144,10 +144,7 @@ class LeducGame:
             if(action==0):
                 gain=-1
                 self.game_is_over=1
-                self.stack2=self.pot
-                
-            elif(action==2):
-                self.stack1=0
+                self.stack2=self.stack2+self.pot
 
             #step1
             if(self.step_number==0):
@@ -189,6 +186,8 @@ class LeducGame:
                     
                     if(self.lastAction==1):
                         self.step_number=2
+                        self.stack1=0
+                        self.pot=2+self.small_stack
 
             #step3
             elif(self.step_number==2):
@@ -210,9 +209,7 @@ class LeducGame:
             if(action==0):
                 gain=1
                 self.game_is_over=1
-                self.stack1=self.pot
-            elif(action==2):
-                self.stack2=0
+                self.stack1=self.stack1+ self.pot
 
             #step1
             if(self.step_number==0):
@@ -256,6 +253,8 @@ class LeducGame:
                             
                     if(self.lastAction==1):
                         self.step_number=2
+                        self.stack2=0
+                        self.pot=2+self.small_stack
             #step3
             elif(self.step_number==2):
                 if(action==2):
