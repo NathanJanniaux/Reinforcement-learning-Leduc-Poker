@@ -6,7 +6,7 @@ import utils
 import numpy as np
 import matplotlib.pyplot as plt
 
-stack_size=10
+stack_size=5
 
 
 # # LeducGame class definition
@@ -27,7 +27,9 @@ class LeducGame:
     lastAction=None
     current_player=None
     game_is_over=None #0 game is not over, #1 game is over
+    epoch_is_over=None
     actions_hist=[]
+    small_stack=None
     #inititate a game
     def __init__(self):
         self.deck = [0,0,1,1,2,2]
@@ -45,8 +47,10 @@ class LeducGame:
         self.stack2=stack_size
         self.current_player=self.firstplayer
         self.game_is_over=0 #0 not over, 1 over
-        
-		#small blind at the beginning of the game
+        self.epoch_is_over=0
+        self.small_stack=None
+
+        #small blind at the beginning of the game
         self.pot=2
         self.stack1=self.stack1-1
         self.stack2=self.stack2-1
@@ -103,16 +107,45 @@ class LeducGame:
             return [0,1,2]
         elif (action==2):
             return [0, 2]
+    
+    def reset(self):
+        self.deck = [0,0,1,1,2,2]
+        
+        #deal card to game from deck
+        self.hand_player1=utils.choose_and_remove(self.deck)
+        self.hand_player2=utils.choose_and_remove(self.deck)
+        self.boardcard=utils.choose_and_remove(self.deck)
+        self.result=self.get_result()
+        self.firstplayer=random.randrange(0,2)
+        self.step_number=0
+        self.game_round=0
+        self.pot=0
+        self.current_player=self.firstplayer
+        self.game_is_over=0 #0 not over, 1 over
+        self.small_stack=None
+        
+        #small blind at the beginning of the game
+        self.pot=2
+        self.stack1=self.stack1-1
+        self.stack2=self.stack2-1
+        
         
     def step_prime(self, action):
         old_round=self.game_round
         gain=0
+        
+        if(self.stack1<=self.stack2):
+            self.small_stack=self.stack1
+        else:
+            self.small_stack=self.stack2
         
         #QAGENT
         if(self.current_player==0):
             if(action==0):
                 gain=-1
                 self.game_is_over=1
+                self.stack2=self.pot
+                
             elif(action==2):
                 self.stack1=0
 
@@ -122,7 +155,8 @@ class LeducGame:
                     self.lastAction=1
     
                 if(action==2):
-                    self.pot=12
+                    self.pot=2+self.small_stack 
+                    self.stack1=self.stack1-self.small_stack
                     self.lastAction=2
                 self.step_number=1
             #step2        
@@ -131,7 +165,8 @@ class LeducGame:
                     if(self.lastAction==1):
                         if(self.game_round==1):
                             self.game_is_over=1
-                            
+                            if(self.stack2==0 or self.stack1==0):
+                                self.epoch_is_over=1
                             if(self.get_result()==1):
                                 gain=1
                             if(self.get_result()==-1):
@@ -142,35 +177,40 @@ class LeducGame:
                         self.step_number=0
                 if(action==2):
                     if(self.lastAction==2):
-                        self.pot=20
+                        self.pot=self.small_stack*2+2
                         self.game_is_over=1
-                        
+                        self.epoch_is_over=1
                         if(self.get_result()==1):
-                            gain=10
+                            gain=self.small_stack+1
+                            self.stack1=self.small_stack+1
                         if(self.get_result()==-1):
-                            gain=-10
-                
-                            
+                            gain=-self.small_stack-1
+                            self.stack1=0
+                    
                     if(self.lastAction==1):
-                        self.pot=12
                         self.step_number=2
 
             #step3
             elif(self.step_number==2):
                 if(action==2):
-                    self.pot=20
+                    self.pot=self.small_stack*2+2
                     self.game_is_over=1
+                    self.epoch_is_over=1
                     
                     if(self.get_result()==1):
-                        gain=10
+                        gain=self.small_stack+1
+                        self.stack1=self.small_stack+1
                     if(self.get_result()==-1):
-                        gain=-10
-                        
+                        gain=-self.small_stack-1
+                        self.stack1=0
+               
+               
         #OPPONENT          
         elif(self.current_player==1):
             if(action==0):
                 gain=1
                 self.game_is_over=1
+                self.stack1=self.pot
             elif(action==2):
                 self.stack2=0
 
@@ -179,7 +219,8 @@ class LeducGame:
                 if(action==1):
                     self.lastAction=1
                 if(action==2):
-                    self.pot=12
+                    self.pot=2+self.small_stack 
+                    self.stack2=self.stack2-self.small_stack
                     self.lastAction=2
                 self.step_number=1
                     
@@ -189,6 +230,8 @@ class LeducGame:
                     if(self.lastAction==1):
                         if(self.game_round==1):
                             self.game_is_over=1
+                            if(self.stack2==0 or self.stack1==0):
+                                self.epoch_is_over=1
                             
                             if(self.get_result()==1):
                                 gain=1
@@ -200,27 +243,32 @@ class LeducGame:
                         self.step_number=0
                 if(action==2):
                     if(self.lastAction==2):
-                        self.pot=20
+                        self.pot=self.small_stack*2+2
                         self.game_is_over=1
+                        self.epoch_is_over=1
                         
                         if(self.get_result()==1):
-                            gain=10
+                            gain=self.small_stack+1
+                            self.stack2=0
                         if(self.get_result()==-1):
-                            gain=-10
+                            gain=-self.small_stack-1
+                            self.stack2=self.small_stack+1
                             
                     if(self.lastAction==1):
-                        self.pot=12
                         self.step_number=2
             #step3
             elif(self.step_number==2):
                 if(action==2):
-                    self.pot=20
+                    self.pot=self.small_stack*2+2
                     self.game_is_over=1
+                    self.epoch_is_over=1
                     
                     if(self.get_result()==1):
-                        gain=10
+                        gain=self.small_stack+1
+                        self.stack2=0
                     if(self.get_result()==-1):
-                        gain=-10
+                        gain=-self.small_stack-1
+                        self.stack2=self.small_stack+1
             
         allowed_actions= self.get_allowed_actions(action)
         #print("allowed_actions in step_prime: ", allowed_actions)

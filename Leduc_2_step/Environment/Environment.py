@@ -8,7 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from Game.LeducGame import *
 
-stack_size=10
+stack_size=5
 random_agent_qtable=None
 greedy_agent_qtable=None
 
@@ -94,6 +94,10 @@ class Environment:
     def reset(self):
         self.game=LeducGame()
         self.actions_hist.clear()
+        
+    def reset_card(self):
+        self.game.reset()
+        self.actions_hist.clear()
     
     def step(self, qagent_action):
         r=0
@@ -111,6 +115,7 @@ class Environment:
                 self.agent.set_action(allowed_actions,None, self.game.get_game_round(), self.game.get_hand_player2(),self.game.get_boardcard())
             
             self.opponent_action=self.agent.get_action()
+            print("opponent_action :", self.agent.get_action())
             r,current_player,allowed_actions= self.game.step_prime(self.opponent_action)
             if(self.game.is_game_over()==1):
                 state=None
@@ -118,5 +123,5 @@ class Environment:
                 state=self.get_state()
         
         return r, allowed_actions, state
-            
+          
 
