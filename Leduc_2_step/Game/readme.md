@@ -33,6 +33,82 @@ Frist we will explain each attribute:
 - **stack1:** *Current stack of the QAgent. It starts at 10*
 - **stack2:** *Current stack of the opponent agent. It starts at 10*
 - **lastAction:** *Store the previous action taken by the precedent player. It can be None (when we are in the first step of a round), 0, 1 or 2*  
+- **current_player:** *Determines the current player*
+  - *0 if it is the QAgent*
+  - *1 if it is the opponent agent*
+- **game_is_over:** *Determines if the game is over or not*
+  - *0 if the game is not over*
+  - *1 if the game is over*
+- **action_hist:** *List of actions taken by the QAgent at a corresponding state. The array has the following form: [[state, action],..., [state, action]]*
+
+## How does it works?
+### Round 0, Step 1
+```python
+game = LeducGame()
+print(game)
+game.step_prime(1)
+```
+
+| FirstPlayer | Hand1 | Hand2 | Boardcard | Deck | Result | Stack1 | Stack2 | Pot | Step | Round | GameIsOver | Current player |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| 0 | 1 | 0 | 2 | [0, 1, 2] | 1 | 9 | 9 | 2 | 0 | 0 | 0 | 0 | 
+
+The first player, in this case the QAgent, checks.
   
+### Round 0, Step 2
+
+```python
+print(game)
+game.step_prime(1)
+```
+
+| FirstPlayer | Hand1 | Hand2 | Boardcard | Deck | Result | Stack1 | Stack2 | Pot | Step | Round | GameIsOver | Current player |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| 0 | 1 | 0 | 2 | [0, 1, 2] | 1 | 9 | 9 | 2 | 1 | 0 | 0 | 1 | 
+
+The second player, in this case the opponent agent, checks.
+
+### Round 1, Step 1
+```python
+print(game)
+game.step_prime(1)
+```
+
+| FirstPlayer | Hand1 | Hand2 | Boardcard | Deck | Result | Stack1 | Stack2 | Pot | Step | Round | GameIsOver | Current player |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| 0 | 1 | 0 | 2 | [0, 1, 2] | 1 | 9 | 9 | 2 | 0 | 1 | 0 | 0 | 
+
+The QAgent checks.
+
+### Round 1, Step 2
+```python
+print(game)
+game.step_prime(2)
+```
+
+| FirstPlayer | Hand1 | Hand2 | Boardcard | Deck | Result | Stack1 | Stack2 | Pot | Step | Round | GameIsOver | Current player |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| 0 | 1 | 0 | 2 | [0, 1, 2] | 1 | 9 | 9 | 2 | 1 | 1 | 0 | 1 |
+
+The opponent agent pushes.
+
+### Round 1, Step 3
+```python
+print(game)
+game.step_prime(2)
+```
+
+| FirstPlayer | Hand1 | Hand2 | Boardcard | Deck | Result | Stack1 | Stack2 | Pot | Step | Round | GameIsOver | Current player |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| 0 | 1 | 0 | 2 | [0, 1, 2] | 1 | 9 | 0 | 12 | 2 | 1 | 0 | 0 | 
+
+The QAgent pushes.
   
+```python
+print(game)
+```
+  
+| FirstPlayer | Hand1 | Hand2 | Boardcard | Deck | Result | Stack1 | Stack2 | Pot | Step | Round | GameIsOver | Current player |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| 0 | 1 | 0 | 2 | [0, 1, 2] | 1 | 0 | 0 | 20 | 2 | 1 | 1 | 1 | 
   
