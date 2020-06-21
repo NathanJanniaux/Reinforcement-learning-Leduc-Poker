@@ -145,6 +145,8 @@ class LeducGame:
                 gain=-1
                 self.game_is_over=1
                 self.stack2=self.stack2+self.pot
+                if(self.stack2==0 or self.stack1==0):
+                    self.epoch_is_over=1
 
             #step1
             if(self.step_number==0):
@@ -210,6 +212,8 @@ class LeducGame:
                 gain=1
                 self.game_is_over=1
                 self.stack1=self.stack1+ self.pot
+                if(self.stack2==0 or self.stack1==0):
+                    self.epoch_is_over=1
 
             #step1
             if(self.step_number==0):
