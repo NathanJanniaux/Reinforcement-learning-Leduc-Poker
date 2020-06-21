@@ -13,7 +13,6 @@ stack_size=10
 
 class LeducGame:
     deck = []
-    actions = [0,1,2] #0 is fold, 1 is check, 2 push
     firstplayer=None; #0 if player1 and 1 if player2
     hand_player1=0;
     hand_player2=0;
@@ -39,9 +38,7 @@ class LeducGame:
         self.boardcard=utils.choose_and_remove(self.deck)
         self.result=self.get_result()
         self.firstplayer=random.randrange(0,2)
-        #self.firstplayer=0
         self.step_number=0
-        self.roundGame=0
         self.game_round=0
         self.pot=0
         self.stack1=stack_size
@@ -49,6 +46,7 @@ class LeducGame:
         self.current_player=self.firstplayer
         self.game_is_over=0 #0 not over, 1 over
         
+		#small blind at the beginning of the game
         self.pot=2
         self.stack1=self.stack1-1
         self.stack2=self.stack2-1
