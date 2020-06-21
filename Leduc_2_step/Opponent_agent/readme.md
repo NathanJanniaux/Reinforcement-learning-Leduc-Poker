@@ -1,5 +1,5 @@
 # Agents
-***WARNING***
+***--WARNING--***
 
 **Each agent need to have the same prototype.**
 ```python
