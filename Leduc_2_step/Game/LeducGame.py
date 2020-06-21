@@ -7,8 +7,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 stack_size=10
-random_agent_qtable=None
-greedy_agent_qtable=None
 
 
 # # LeducGame class definition
