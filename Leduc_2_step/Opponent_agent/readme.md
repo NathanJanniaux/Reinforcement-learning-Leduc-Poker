@@ -1,5 +1,6 @@
 # Agents
 ***WARNING***
+
 **Each agent need to have the same prototype.**
 ```python
 def set_action(self,allowed_actions,qagent_action, game_round, hand, boardcard):
@@ -39,6 +40,6 @@ def get_action(self):
     return self.action
 ```
 
-You may need more parameters. If it is the case, you have to modify the *set_action* of the other agents. Each agent need to have the same prototype.
+You may need more parameters. If it is the case, you have to modify the *set_action* method of the other agents. Each agent need to have the same prototype.
 
 
