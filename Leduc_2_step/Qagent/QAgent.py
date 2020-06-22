@@ -24,7 +24,7 @@ class QAgent():
     
     def __init__(self):
         #qtable creation
-        self.qtable=np.zeros((10,self.state_number,3))
+        self.qtable=np.zeros((9,self.state_number,3))
         self.perf=[]
         
     #allow to print leduc game state
