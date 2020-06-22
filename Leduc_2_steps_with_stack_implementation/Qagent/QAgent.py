@@ -38,12 +38,12 @@ class QAgent():
         action=random.choice(allowed_actions)
         return action
     
-    def exploit_action(self, allowed_actions):
+    def exploit_action(self, allowed_actions,stack_qagent):
         #print("allowed_actions",allowed_actions)
         #print("self.state", self.state)
-        #print("self.qtable[self.state]", self.qtable[self.state])
+        #print("self.qtable[stack-1][self.state]", self.qtable[stack_qagent-1][self.state])
       
-        action=utils.get_max_list(self.qtable[self.state], allowed_actions)
+        action=utils.get_max_list(self.qtable[stack_qagent-1][self.state], allowed_actions)
         
         return action
       
@@ -59,33 +59,55 @@ class QAgent():
     def update(self,reward, actions_hist, stack1,stack2):
         #print("UPDATE action= {} \n reward = {} \n next_state = {}\n".format(action,reward,next_state))
         new_value = 0
+        future_reward=5
         min_stack=None
         if (stack1<= stack2):
             min_stack=stack1
         else:
             min_stack=stack2
-        
+        if(stack1==0):
+            reward=-5
+            future_reward=0
+        elif(stack2==0):
+            reward=5
+            future_reward=0
+            
         #print ("Update: \n")
         #print ("reward = ", reward)
         #print ("actions_hist = ", actions_hist)
         if(len(actions_hist)==1):
-            new_value = (1 - self.learning_rate) * self.qtable[stack1-1, actions_hist[0][0], actions_hist[0][1]] +  self.learning_rate * reward
+            
+            if(actions_hist[0][1]==0 and stack1==1):
+                reward=-5
+                future_reward=0
+
+            new_value = (1 - self.learning_rate) * self.qtable[stack1-1, actions_hist[0][0], actions_hist[0][1]] +  self.learning_rate * (reward + self.gamma*future_reward)
             self.qtable[stack1-1, actions_hist[0][0], actions_hist[0][1]] = new_value
             #print(actions_hist)
         if(len(actions_hist)==2):
-            new_value = (1 - self.learning_rate) * self.qtable[stack1-1, actions_hist[1][0], actions_hist[1][1]] +  self.learning_rate * reward
+
+            if(actions_hist[1][1]==0 and stack1==1):
+                reward=-5
+                future_reward=0
+                
+            new_value = (1 - self.learning_rate) * self.qtable[stack1-1, actions_hist[1][0], actions_hist[1][1]] +  self.learning_rate * (reward + self.gamma*future_reward)
             self.qtable[stack1-1, actions_hist[1][0], actions_hist[1][1]] = new_value
 
-            back = (1 - self.learning_rate) * self.qtable[stack1-1, actions_hist[0][0], actions_hist[0][1]] +  self.learning_rate * (0 + self.gamma*min_stack)
+            back = (1 - self.learning_rate) * self.qtable[stack1-1, actions_hist[0][0], actions_hist[0][1]] +  self.learning_rate * (0 + self.gamma*future_reward)
             self.qtable[stack1-1, actions_hist[0][0], actions_hist[0][1]] = back
 
         if(len(actions_hist)==3):
-            new_value = (1 - self.learning_rate) * self.qtable[stack1-1, actions_hist[2][0], actions_hist[2][1]] +  self.learning_rate * reward
+        
+            if(actions_hist[2][1]==0 and stack1==1):
+                reward=-5
+                future_reward=0
+
+            new_value = (1 - self.learning_rate) * self.qtable[stack1-1, actions_hist[2][0], actions_hist[2][1]] +  self.learning_rate * (reward + self.gamma*future_reward)
             self.qtable[stack1-1, actions_hist[2][0], actions_hist[2][1]] = new_value
 
-            back = (1 - self.learning_rate) * self.qtable[stack1-1, actions_hist[1][0], actions_hist[1][1]] +  self.learning_rate * (0 + self.gamma*min_stack)
+            back = (1 - self.learning_rate) * self.qtable[stack1-1, actions_hist[1][0], actions_hist[1][1]] +  self.learning_rate * (0 + self.gamma*future_reward)
             self.qtable[stack1-1, actions_hist[1][0], actions_hist[1][1]] = back
 
-            back_prime = (1 - self.learning_rate) * self.qtable[stack1-1, actions_hist[0][0], actions_hist[0][1]] +  self.learning_rate * (0 + self.gamma*min_stack)
+            back_prime = (1 - self.learning_rate) * self.qtable[stack1-1, actions_hist[0][0], actions_hist[0][1]] +  self.learning_rate * (0 + self.gamma*future_reward)
             self.qtable[stack1-1, actions_hist[0][0], actions_hist[0][1]] = back_prime
 

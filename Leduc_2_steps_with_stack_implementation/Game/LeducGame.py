@@ -175,11 +175,15 @@ class LeducGame:
                                 self.stack1=self.stack1+small_stack
                                 self.stack2=self.stack2-small_stack
                             elif(self.get_result()==-1):
+                                self.stack1=self.stack1-small_stack
+                                self.stack2=self.stack2+small_stack
                                 self.epoch_is_over=1
                                 gain=-small_stack
                         elif(self.stack1 > self.stack2):
                             if(self.get_result()==1):
                                 gain=small_stack
+                                self.stack1=self.stack1+small_stack
+                                self.stack2=self.stack2-small_stack
                                 self.epoch_is_over=1
                             elif(self.get_result()==-1):
                                 gain=-small_stack
@@ -205,11 +209,15 @@ class LeducGame:
                             self.stack1=self.stack1+small_stack
                             self.stack2=self.stack2-small_stack
                         elif(self.get_result()==-1):
+                            self.stack1=self.stack1-small_stack
+                            self.stack2=self.stack2+small_stack
                             self.epoch_is_over=1
                             gain=-small_stack
                     elif(self.stack1 > self.stack2):
                         if(self.get_result()==1):
                             gain=small_stack
+                            self.stack1=self.stack1+small_stack
+                            self.stack2=self.stack2-small_stack
                             self.epoch_is_over=1
                         elif(self.get_result()==-1):
                             gain=-small_stack
@@ -270,12 +278,16 @@ class LeducGame:
                                 self.stack1=self.stack1+small_stack
                                 self.stack2=self.stack2-small_stack
                             elif(self.get_result()==-1):
+                                self.stack1=self.stack1-small_stack
+                                self.stack2=self.stack2+small_stack
                                 self.epoch_is_over=1
                                 gain=-small_stack
                         elif(self.stack1 > self.stack2):
                             if(self.get_result()==1):
                                 gain=small_stack
                                 self.epoch_is_over=1
+                                self.stack1=self.stack1+small_stack
+                                self.stack2=self.stack2-small_stack
                             elif(self.get_result()==-1):
                                 gain=-small_stack
                                 self.stack2=self.stack2+small_stack
@@ -299,12 +311,16 @@ class LeducGame:
                             self.stack1=self.stack1+small_stack
                             self.stack2=self.stack2-small_stack
                         elif(self.get_result()==-1):
+                            self.stack1=self.stack1-small_stack
+                            self.stack2=self.stack2+small_stack
                             self.epoch_is_over=1
                             gain=-small_stack
                     elif(self.stack1 > self.stack2):
                         if(self.get_result()==1):
                             gain=small_stack
                             self.epoch_is_over=1
+                            self.stack1=self.stack1+small_stack
+                            self.stack2=self.stack2-small_stack
                         elif(self.get_result()==-1):
                             gain=-small_stack
                             self.stack2=self.stack2+small_stack

@@ -109,6 +109,7 @@ class Environment:
         if(allowed_actions==None):
             self.game.game_is_over=1
         if(self.game.is_game_over()==0):
+            
             if(last_game_round==self.game.get_game_round()):
                 self.agent.set_action(allowed_actions,qagent_action, self.game.get_game_round(), self.game.get_hand_player2(),self.game.get_boardcard())
             else:
@@ -116,7 +117,41 @@ class Environment:
             
             self.opponent_action=self.agent.get_action()
             #print("opponent_action: ", self.opponent_action)
+            
             r,current_player,allowed_actions= self.game.step_prime(self.opponent_action, small_stack)
+            
+            if(self.game.is_game_over()==1):
+                state=None
+            else:
+                state=self.get_state()
+        
+        return r, allowed_actions, state
+        
+    def step_human(self, qagent_action, small_stack):
+        r=0
+        state=None
+        last_game_round=self.game.get_game_round()
+        
+        self.actions_hist.append([self.get_state(),qagent_action])
+        r,current_player,allowed_actions=self.game.step_prime(qagent_action, small_stack)
+        if(allowed_actions==None):
+            self.game.game_is_over=1
+        if(self.game.is_game_over()==0):
+            print("Your stack = ",self.game.stack1)
+            print("QAgent stack = ",self.game.stack2)
+            print("Your card = ",self.game.hand_player1)
+            print("QAgent action = ",qagent_action)
+            
+            if (self.game.game_round==1):
+                print("Boardcard = ", self.game.boardcard)        
+            print("\n\n")
+
+			
+            self.opponent_action=int(input("Please enter an action :(0,1 or 2)\n"))
+            #print("opponent_action: ", self.opponent_action)
+            
+            r,current_player,allowed_actions= self.game.step_prime(self.opponent_action, small_stack)
+            
             if(self.game.is_game_over()==1):
                 state=None
             else:
