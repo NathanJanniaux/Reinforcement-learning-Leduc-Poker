@@ -8,7 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from Game.LeducGame import *
 
-stack_size=10
+stack_size=5
 random_agent_qtable=None
 greedy_agent_qtable=None
 
@@ -51,7 +51,7 @@ class Environment:
         
         
         if self.game.game_round == 0:
-            if (first == 0 and self.game.lastAction == None):
+            if (self.game.lastAction == None):
                 return hand1
             elif (first ==0 and self.game.lastAction == 1):
                 return hand1+6
@@ -61,7 +61,7 @@ class Environment:
                 return hand1+6
             
         elif self.game.game_round == 1:
-            if (first == 0 and self.game.lastAction == None):
+            if (self.game.lastAction == None):
                 if hand1==0:
                     return boardcard+9
                 elif hand1== 1:
@@ -94,14 +94,18 @@ class Environment:
     def reset(self):
         self.game=LeducGame()
         self.actions_hist.clear()
+        
+    def reset_card(self):
+        self.game.reset()
+        self.actions_hist.clear()
     
-    def step(self, qagent_action):
+    def step(self, qagent_action, small_stack):
         r=0
         state=None
         last_game_round=self.game.get_game_round()
         
         self.actions_hist.append([self.get_state(),qagent_action])
-        r,current_player,allowed_actions=self.game.step_prime(qagent_action)
+        r,current_player,allowed_actions=self.game.step_prime(qagent_action, small_stack)
         if(allowed_actions==None):
             self.game.game_is_over=1
         if(self.game.is_game_over()==0):
@@ -111,12 +115,13 @@ class Environment:
                 self.agent.set_action(allowed_actions,None, self.game.get_game_round(), self.game.get_hand_player2(),self.game.get_boardcard())
             
             self.opponent_action=self.agent.get_action()
-            r,current_player,allowed_actions= self.game.step_prime(self.opponent_action)
+            #print("opponent_action: ", self.opponent_action)
+            r,current_player,allowed_actions= self.game.step_prime(self.opponent_action, small_stack)
             if(self.game.is_game_over()==1):
                 state=None
             else:
                 state=self.get_state()
         
         return r, allowed_actions, state
-            
+          
 

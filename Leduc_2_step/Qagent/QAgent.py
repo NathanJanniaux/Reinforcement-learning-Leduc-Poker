@@ -5,7 +5,7 @@ import random
 import utils
 import numpy as np
 
-stack_size=5
+stack_size=10
 
 
 # ## QAgent
@@ -24,7 +24,7 @@ class QAgent():
     
     def __init__(self):
         #qtable creation
-        self.qtable=np.zeros((9,self.state_number,3))
+        self.qtable=np.zeros((self.state_number,3))
         self.perf=[]
         
     #allow to print leduc game state
@@ -56,36 +56,31 @@ class QAgent():
     def set_perf(self,perf):
         self.perf.append(perf)
 
-    def update(self,reward, actions_hist, stack1,stack2):
+    def update(self,reward, actions_hist):
         #print("UPDATE action= {} \n reward = {} \n next_state = {}\n".format(action,reward,next_state))
         new_value = 0
-        min_stack=None
-        if (stack1<= stack2):
-            min_stack=stack1
-        else:
-            min_stack=stack2
         
         #print ("Update: \n")
         #print ("reward = ", reward)
         #print ("actions_hist = ", actions_hist)
         if(len(actions_hist)==1):
-            new_value = (1 - self.learning_rate) * self.qtable[stack1-1, actions_hist[0][0], actions_hist[0][1]] +  self.learning_rate * reward
-            self.qtable[stack1-1, actions_hist[0][0], actions_hist[0][1]] = new_value
+            new_value = (1 - self.learning_rate) * self.qtable[actions_hist[0][0], actions_hist[0][1]] +  self.learning_rate * reward
+            self.qtable[actions_hist[0][0], actions_hist[0][1]] = new_value
             #print(actions_hist)
         if(len(actions_hist)==2):
-            new_value = (1 - self.learning_rate) * self.qtable[stack1-1, actions_hist[1][0], actions_hist[1][1]] +  self.learning_rate * reward
-            self.qtable[stack1-1, actions_hist[1][0], actions_hist[1][1]] = new_value
+            new_value = (1 - self.learning_rate) * self.qtable[actions_hist[1][0], actions_hist[1][1]] +  self.learning_rate * reward
+            self.qtable[actions_hist[1][0], actions_hist[1][1]] = new_value
 
-            back = (1 - self.learning_rate) * self.qtable[stack1-1, actions_hist[0][0], actions_hist[0][1]] +  self.learning_rate * (0 + self.gamma*min_stack)
-            self.qtable[stack1-1, actions_hist[0][0], actions_hist[0][1]] = back
+            back = (1 - self.learning_rate) * self.qtable[actions_hist[0][0], actions_hist[0][1]] +  self.learning_rate * (0 + self.gamma*10)
+            self.qtable[actions_hist[0][0], actions_hist[0][1]] = back
 
         if(len(actions_hist)==3):
-            new_value = (1 - self.learning_rate) * self.qtable[stack1-1, actions_hist[2][0], actions_hist[2][1]] +  self.learning_rate * reward
-            self.qtable[stack1-1, actions_hist[2][0], actions_hist[2][1]] = new_value
+            new_value = (1 - self.learning_rate) * self.qtable[actions_hist[2][0], actions_hist[2][1]] +  self.learning_rate * reward
+            self.qtable[actions_hist[2][0], actions_hist[2][1]] = new_value
 
-            back = (1 - self.learning_rate) * self.qtable[stack1-1, actions_hist[1][0], actions_hist[1][1]] +  self.learning_rate * (0 + self.gamma*min_stack)
-            self.qtable[stack1-1, actions_hist[1][0], actions_hist[1][1]] = back
+            back = (1 - self.learning_rate) * self.qtable[actions_hist[1][0], actions_hist[1][1]] +  self.learning_rate * (0 + self.gamma*10)
+            self.qtable[actions_hist[1][0], actions_hist[1][1]] = back
 
-            back_prime = (1 - self.learning_rate) * self.qtable[stack1-1, actions_hist[0][0], actions_hist[0][1]] +  self.learning_rate * (0 + self.gamma*min_stack)
-            self.qtable[stack1-1, actions_hist[0][0], actions_hist[0][1]] = back_prime
+            back_prime = (1 - self.learning_rate) * self.qtable[actions_hist[0][0], actions_hist[0][1]] +  self.learning_rate * (0 + self.gamma*10)
+            self.qtable[actions_hist[0][0], actions_hist[0][1]] = back_prime
 
