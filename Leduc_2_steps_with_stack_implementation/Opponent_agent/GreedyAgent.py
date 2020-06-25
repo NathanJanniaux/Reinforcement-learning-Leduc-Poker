@@ -35,9 +35,9 @@ class GreedyAgent():
                     self.action=random.sample(action_list,1)[0]
             elif qagent_action == 2:
                 if hand == 0:
-                    self.action= 0
+                    self.action= [2,2,2,2,2,2,2,2,2,2] 
                 elif hand == 1:
-                    action_list=[2,2,0,0,0,0,0,0,0,0] 
+                    action_list=[2,2,2,2,2,2,2,2,2,2] 
                     self.action=random.sample(action_list,1)[0]
                 elif hand == 2:
                     self.action= 2

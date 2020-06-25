@@ -137,16 +137,17 @@ class Environment:
         if(allowed_actions==None):
             self.game.game_is_over=1
         if(self.game.is_game_over()==0):
-            print("Your stack = ",self.game.stack1)
-            print("QAgent stack = ",self.game.stack2)
-            print("Your card = ",self.game.hand_player1)
+            print("Your stack = ",self.game.stack2)
+            print("QAgent stack = ",self.game.stack1)
+            print("Your card = ",self.game.hand_player2)
+            if (self.game.game_round==1):
+                print("Boardcard = ", self.game.boardcard)      
             print("QAgent action = ",qagent_action)
             
-            if (self.game.game_round==1):
-                print("Boardcard = ", self.game.boardcard)        
+              
             print("\n\n")
 
-			
+            
             self.opponent_action=int(input("Please enter an action :(0,1 or 2)\n"))
             #print("opponent_action: ", self.opponent_action)
             
